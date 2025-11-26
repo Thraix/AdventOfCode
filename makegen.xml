@@ -1,0 +1,23 @@
+<makegen>
+  <configuration name="Release">
+    <generatehfile>false</generatehfile>
+    <includedir>src/</includedir>
+    <outputdir>bin/</outputdir>
+    <outputname>adventofcode.out</outputname>
+    <outputtype>executable</outputtype>
+    <projectname>AdventOfCode</projectname>
+    <srcdir>src/</srcdir>
+  </configuration>
+  <configuration name="Debug">
+    <generatehfile>false</generatehfile>
+    <includedir>src/</includedir>
+    <cflag>-g</cflag>
+    <outputdir>bin/</outputdir>
+    <outputname>adventofcode.out</outputname>
+    <outputtype>executable</outputtype>
+    <projectname>AdventOfCode</projectname>
+    <srcdir>src/</srcdir>
+  </configuration>
+  <target>Debug</target>
+  <version>v1.3.0</version>
+</makegen>
