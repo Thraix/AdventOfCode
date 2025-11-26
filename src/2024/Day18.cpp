@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day18
+namespace y2024::day18
 {
   using Memory = std::map<Index2D, int>;
   REGISTER_DAY(2024, Day18, Memory, int32_t);

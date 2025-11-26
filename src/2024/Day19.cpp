@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day19
+namespace y2024::day19
 {
   struct Towels
   {

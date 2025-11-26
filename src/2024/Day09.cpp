@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day09
+namespace y2024::day09
 {
   REGISTER_DAY(2024, Day09, std::vector<int>, int64_t);
 

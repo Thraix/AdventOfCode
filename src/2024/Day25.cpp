@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day25
+namespace y2024::day25
 {
   struct KeysLocks
   {

@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day15
+namespace y2024::day15
 {
   struct Map
   {

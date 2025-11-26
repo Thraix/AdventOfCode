@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day05
+namespace y2024::day05
 {
   struct Manual
   {

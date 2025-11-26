@@ -6,7 +6,6 @@ if [ ! -e cookies.txt ]; then
 fi
 
 list=$(find -name "Day*.cpp" | awk -F '/' '{print $3 "/" $4}' | awk -F '.' '{print $1}' | sed 's/Day//g' | sort)
-echo $list
 
 for item in $list; do
     echo $item
@@ -23,5 +22,4 @@ for item in $list; do
         touch "res/$year/day$day/test_input.txt"
         curl -s --cookie cookies.txt https://adventofcode.com/$year/day/$webitem/input >$dir
     fi
-    exit
 done

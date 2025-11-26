@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day23
+namespace y2024::day23
 {
   struct Network
   {

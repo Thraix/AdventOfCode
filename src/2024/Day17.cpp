@@ -2,7 +2,7 @@
 
 #include "common/aoc.h"
 
-namespace day17
+namespace y2024::day17
 {
   struct Program
   {

@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day24
+namespace y2024::day24
 {
   struct Gate
   {

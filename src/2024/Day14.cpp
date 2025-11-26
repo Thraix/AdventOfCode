@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day14
+namespace y2024::day14
 {
   struct Robot
   {

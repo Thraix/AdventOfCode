@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day11
+namespace y2024::day11
 {
   using Stones = std::map<int64_t, int64_t>;
   REGISTER_DAY(2024, Day11, Stones, int64_t);

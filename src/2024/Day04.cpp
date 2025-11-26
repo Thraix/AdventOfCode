@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day04
+namespace y2024::day04
 {
   REGISTER_DAY(2024, Day04, Array2D<char>, int32_t);
 

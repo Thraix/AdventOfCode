@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day13
+namespace y2024::day13
 {
   struct ClawMachine
   {

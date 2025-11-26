@@ -1,6 +1,6 @@
 #include "common/aoc.h"
 
-namespace day01
+namespace y2024::day01
 {
   using InputType = std::pair<std::vector<int>, std::vector<int>>;
   REGISTER_DAY(2024, Day01, InputType, int);
