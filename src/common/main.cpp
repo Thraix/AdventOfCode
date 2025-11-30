@@ -10,17 +10,72 @@ aoc::Registry* aoc::Registry::GetInstance()
   return instance;
 }
 
+struct Args
+{
+  std::string testRegex{""};
+  bool stopIfFailed{false};
+
+  friend std::ostream& operator<<(std::ostream& os, const Args& args)
+  {
+    return os << "regex=" << args.testRegex << "\nstopIfFailed=" << (args.stopIfFailed ? "true" : "false");
+  }
+};
+
+Args ParseArgs(const std::vector<std::string>& arguments)
+{
+  Args args;
+  for (const std::string& argument : arguments)
+  {
+    if (Helper::StartsWith(argument, "--stop-if-failed"))
+    {
+      args.stopIfFailed = true;
+    }
+    else if (Helper::StartsWith(argument, "--filter="))
+    {
+      args.testRegex = std::string(argument).substr(sizeof("--filter=") - 1);
+    }
+    else
+    {
+      std::cout << "Unknown argument: " << argument << std::endl;
+    }
+  }
+  return args;
+}
+
+std::vector<std::string> ReadArgs(int argc, char** argv)
+{
+  std::vector<std::string> arguments;
+  for (int i = 1; i < argc; i++)
+  {
+    arguments.emplace_back(argv[i]);
+  }
+
+  if (arguments.empty())
+  {
+    std::ifstream inputStream{"config.txt"};
+    if (inputStream.is_open())
+    {
+      std::string str;
+      while (inputStream >> str)
+      {
+        arguments.emplace_back(str);
+      }
+    }
+  }
+  return arguments;
+}
+
 int main(int argc, char** argv)
 {
-  std::regex regex{""};
-  if (argc > 1)
-    regex = argv[1];
+  Args args = ParseArgs(ReadArgs(argc, argv));
+  std::regex regex{args.testRegex};
   Timer totalTimer;
   int passed = 0;
   int skipped = 0;
-  for (auto day : aoc::Registry::GetDays())
+  bool stopped = false;
+  for (const auto& day : aoc::Registry::GetDays())
   {
-    if (!std::regex_search(day->GetName(), regex))
+    if (!std::regex_search(day->GetName(), regex) || stopped)
     {
       skipped++;
       continue;
@@ -42,6 +97,10 @@ int main(int argc, char** argv)
     {
       std::cout << TERM_RED << "[=========] " << TERM_CLEAR << std::endl;
       std::cout << TERM_RED << "[  FAILED ] " << TERM_CLEAR << day->GetName() << std::endl;
+      if (args.stopIfFailed)
+      {
+        stopped = true;
+      }
     }
     std::cout << std::endl;
   }

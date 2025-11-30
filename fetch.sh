@@ -14,8 +14,16 @@ for item in $list; do
     if [ ! -e $dir ]; then
         webitem=$(echo $day | sed 's/^0//g')
         echo "Fetching $dir"
-        mkdir -p "res/$year/day$day/"
-        touch "res/$year/day$day/test_input.txt"
-        curl -s --cookie cookies.txt https://adventofcode.com/$year/day/$webitem/input >$dir
+        tmp_file=$(mktemp)
+        HTTP_CODE=$(curl -s -w "%{http_code}" -o "$tmp_file" --cookie cookies.txt https://adventofcode.com/$year/day/$webitem/input)
+        if [ "$HTTP_CODE" -eq 200 ]; then
+            mkdir -p "res/$year/day$day/"
+            touch "res/$year/day$day/test_input.txt"
+            mv "$tmp_file" $dir
+        else
+            echo "Failed to fetch with status: $HTTP_CODE"
+            rm "$tmp_file"
+            exit 1
+        fi
     fi
 done
