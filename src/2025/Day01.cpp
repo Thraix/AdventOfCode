@@ -10,10 +10,6 @@ namespace y2025::day01
   REGISTER_TEST_EXAMPLE(2025, Day01, ExampleInput, 2, 6);
   REGISTER_TEST(2025, Day01, Input, 2, 6671);
 
-  void test(int i)
-  {
-  }
-
   READ_INPUT(input)
   {
     std::vector<int> vec;

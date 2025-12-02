@@ -15,6 +15,18 @@
 
 #define BIT(x) (1 << (x))
 
+template <typename T>
+static std::ostream& operator<<(std::ostream& stream, const std::vector<T>& container);
+
+template <typename T>
+static std::ostream& operator<<(std::ostream& stream, const std::set<T>& container);
+
+template <typename T, typename S>
+static std::ostream& operator<<(std::ostream& stream, const std::map<T, S>& container);
+
+template <typename T, typename S>
+static std::ostream& operator<<(std::ostream& stream, const std::pair<T, S>& pair);
+
 struct Helper
 {
   template <typename T, typename S>
@@ -36,6 +48,59 @@ struct Helper
   static bool IsDigit(char c)
   {
     return c >= '0' && c <= '9';
+  }
+
+  static int GetNumberOfDigits(int n)
+  {
+    assert(n > 0);
+    // clang-format off
+    if (n < 10)            return 1;
+    if (n < 100)           return 2;
+    if (n < 1'000)         return 3;
+    if (n < 10'000)        return 4;
+    if (n < 100'000)       return 5;
+    if (n < 1'000'000)     return 6;
+    if (n < 10'000'000)    return 7;
+    if (n < 100'000'000)   return 8;
+    if (n < 1'000'000'000) return 9;
+    // clang-format on
+    return 10;
+  }
+
+  static int GetNumberOfDigits(int64_t n)
+  {
+    assert(n > 0);
+    // clang-format off
+    if (n < 10)                        return 1;
+    if (n < 100)                       return 2;
+    if (n < 1'000)                     return 3;
+    if (n < 10'000)                    return 4;
+    if (n < 100'000)                   return 5;
+    if (n < 1'000'000)                 return 6;
+    if (n < 10'000'000)                return 7;
+    if (n < 100'000'000)               return 8;
+    if (n < 1'000'000'000)             return 9;
+    if (n < 10'000'000'000)            return 10;
+    if (n < 100'000'000'000)           return 11;
+    if (n < 1'000'000'000'000)         return 12;
+    if (n < 10'000'000'000'000)        return 13;
+    if (n < 100'000'000'000'000)       return 14;
+    if (n < 1'000'000'000'000'000)     return 15;
+    if (n < 10'000'000'000'000'000)    return 16;
+    if (n < 100'000'000'000'000'000)   return 17;
+    if (n < 1'000'000'000'000'000'000) return 18;
+    // clang-format on
+    return 19;
+  }
+
+  static int64_t Pow10(int pow)
+  {
+    int64_t p = 10;
+    for (int i = 1; i < pow; i++)
+    {
+      p *= 10;
+    }
+    return p;
   }
 
   // Converts a binary string to an int32_t ie "10100111001" to 1337
