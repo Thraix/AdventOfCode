@@ -35,6 +35,8 @@ namespace y2023::day10
       case Direction::West:
         return Index2D{position.x - 1, position.y};
     }
+    std::cerr << "Reached unreachable code" << std::endl;
+    abort();
   }
 
   Direction GetNextDirection(const Array2D<char>& map, Index2D position, Direction prevDirection)

@@ -2,7 +2,8 @@
   <configuration name="Release">
     <generatehfile>false</generatehfile>
     <includedir>src/</includedir>
-    <outputdir>bin/</outputdir>
+    <cflag>-O3</cflag>
+    <outputdir>bin/Release</outputdir>
     <outputname>adventofcode.out</outputname>
     <outputtype>executable</outputtype>
     <projectname>AdventOfCode</projectname>
@@ -12,7 +13,7 @@
     <generatehfile>false</generatehfile>
     <includedir>src/</includedir>
     <cflag>-g</cflag>
-    <outputdir>bin/</outputdir>
+    <outputdir>bin/Debug/</outputdir>
     <outputname>adventofcode.out</outputname>
     <outputtype>executable</outputtype>
     <projectname>AdventOfCode</projectname>

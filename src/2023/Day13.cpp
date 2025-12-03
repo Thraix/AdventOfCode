@@ -107,7 +107,8 @@ namespace y2023::day13
         map.Set(x, y, c);
       }
     }
-    std::cout << "here" << std::endl;
+    std::cerr << "Reached unreachable code" << std::endl;
+    abort();
   }
 
   // Too low: 35441

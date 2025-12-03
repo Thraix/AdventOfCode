@@ -127,12 +127,14 @@ namespace aoc
           std::cout << TERM_RED << "Could not find input file: " << test->GetInputFile() << TERM_CLEAR << std::endl;
           return false;
         }
+        Timer timer{};
         std::string testName = name + ".P" + std::to_string(test->GetPart()) + "." + test->GetName();
         std::cout << TERM_GREEN << "[ RUN     ] " << TERM_CLEAR << testName << std::endl;
         InputType input = ReadInput(inputStream);
         OutputType output = test->GetPart() == 1 ? Output1(input) : Output2(input);
+        timer.Stop();
 
-        if (!Check(test->GetExpectedOutput(), output, testName))
+        if (!Check(test->GetExpectedOutput(), output, testName, timer.Elapsed()))
         {
           return false;
         };
@@ -150,10 +152,12 @@ namespace aoc
     virtual OutputType Output2(const InputType& input) = 0;
 
   private:
-    bool Check(const OutputType& expected, const OutputType& actual, const std::string& name) const
+    bool Check(const OutputType& expected, const OutputType& actual, const std::string& name, double elapsedTime) const
     {
       if (expected == actual)
       {
+        std::cout << TERM_GREEN << "[         ] " << TERM_CLEAR << "  Took:   " << elapsedTime << " seconds"
+                  << std::endl;
         std::cout << TERM_GREEN << "[      OK ] " << TERM_CLEAR << "  Result: " << actual << std::endl;
         return true;
       }
