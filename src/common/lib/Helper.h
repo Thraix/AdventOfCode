@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <functional>
 #include <iostream>
 #include <limits>
@@ -681,6 +682,12 @@ static std::ostream& operator<<(std::ostream& stream, const std::vector<T>& cont
 
 template <typename T>
 static std::ostream& operator<<(std::ostream& stream, const std::set<T>& container)
+{
+  return Helper::Print(stream, container);
+}
+
+template <typename T, size_t N>
+static std::ostream& operator<<(std::ostream& stream, const std::array<T, N>& container)
 {
   return Helper::Print(stream, container);
 }
