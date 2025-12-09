@@ -709,6 +709,38 @@ static std::ostream& operator<<(std::ostream& stream, const std::map<T, S>& cont
 }
 
 template <typename T, typename S>
+static std::ostream& operator<<(std::ostream& stream, const std::multimap<T, S>& container)
+{
+  stream << "{";
+  int i = 0;
+  for (const auto& [t, s] : container)
+  {
+    if (i != 0)
+      stream << ", ";
+    stream << t << " => " << s;
+    i++;
+  }
+  stream << "}";
+  return stream;
+}
+
+template <typename T, typename S>
+static std::ostream& operator<<(std::ostream& stream, const std::unordered_map<T, S>& container)
+{
+  stream << "{";
+  int i = 0;
+  for (const auto& [t, s] : container)
+  {
+    if (i != 0)
+      stream << ", ";
+    stream << t << " => " << s;
+    i++;
+  }
+  stream << "}";
+  return stream;
+}
+
+template <typename T, typename S>
 static std::ostream& operator<<(std::ostream& stream, const std::pair<T, S>& pair)
 {
   return stream << "(" << pair.first << ", " << pair.second << ")";
