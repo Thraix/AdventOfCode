@@ -11,7 +11,7 @@ namespace y2021::day04
   bool MarkAndCheck(Array2D<int>& board, int number)
   {
     Index2D index = board.Find(number);
-    if (index)
+    if (index.IsValid())
     {
       board[index] = -1;
       // Check board is filled

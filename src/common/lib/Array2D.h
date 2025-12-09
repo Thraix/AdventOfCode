@@ -14,11 +14,6 @@ struct Index2D
     return x != -1 && y != -1;
   }
 
-  operator bool()
-  {
-    return IsValid();
-  }
-
   Index2D operator+(const Index2D& other) const
   {
     return Index2D{x + other.x, y + other.y};
