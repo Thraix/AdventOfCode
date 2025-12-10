@@ -81,6 +81,7 @@ namespace y2024::day18
       size = 6;
 
     Map map{input, size, 0};
+    Helper::ScopedTraceErrorDisabler traceErrorDisabler;
     int result = Helper::BinarySearch(map, 0, input.size(), ValidPath);
     for (auto& index : input)
     {

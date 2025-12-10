@@ -30,6 +30,19 @@ static std::ostream& operator<<(std::ostream& stream, const std::pair<T, S>& pai
 
 struct Helper
 {
+  struct ScopedTraceErrorDisabler
+  {
+    ScopedTraceErrorDisabler()
+    {
+      DisableTraceErrors();
+    }
+
+    ~ScopedTraceErrorDisabler()
+    {
+      ResetTraceErrors();
+    }
+  };
+
   template <typename T, typename S>
   static void RemoveIf(T& t, S func)
   {
@@ -299,6 +312,8 @@ struct Helper
       }
       open.erase(open.begin());
     }
+    if (traceErrors)
+      std::cout << "No solution found" << std::endl;
     return 0;
   }
 
@@ -341,6 +356,8 @@ struct Helper
       }
       open.erase(open.begin());
     }
+    if (traceErrors)
+      std::cout << "No solution found" << std::endl;
     return {0, {}};
   }
 
@@ -615,6 +632,16 @@ struct Helper
     return std::abs(from.x - to.x) + std::abs(from.y - to.y);
   }
 
+  static void DisableTraceErrors()
+  {
+    traceErrors = false;
+  }
+
+  static void ResetTraceErrors()
+  {
+    traceErrors = true;
+  }
+
 private:
   template <typename Key, typename Value, typename Compare, typename Eval>
   static int TSP(const Graph<Key, Value>& graph,
@@ -672,7 +699,11 @@ public:
   {
     return TSP(graph, graph.GetNodes(), std::vector<Key>{}, compare, eval);
   }
+
+  static bool traceErrors;
 };
+
+inline bool Helper::traceErrors = true;
 
 template <typename T>
 static std::ostream& operator<<(std::ostream& stream, const std::vector<T>& container)
