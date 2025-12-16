@@ -80,6 +80,126 @@ namespace y2025::day10
     return minSolution;
   }
 
+  bool IsGoal(const std::vector<int>& joltageTarget)
+  {
+    for (auto joltage : joltageTarget)
+    {
+      if (joltage != 0)
+        return false;
+    }
+    return true;
+  }
+
+  bool IsValid(const std::vector<int>& joltageTarget)
+  {
+    for (auto joltage : joltageTarget)
+    {
+      if (joltage < 0)
+        return false;
+    }
+    return true;
+  }
+
+  std::vector<std::vector<int>> GetButtonsList(const Machine& machine,
+                                               uint64_t parity,
+                                               int button,
+                                               const std::vector<int>& buttons)
+  {
+    std::vector<std::vector<int>> result;
+    if (parity == 0)
+    {
+      result.emplace_back(buttons);
+    }
+
+    for (int i = button; i < machine.buttons.size(); i++)
+    {
+      uint64_t newParity = parity;
+      for (auto b : machine.buttons[i])
+      {
+        newParity ^= 1 << b;
+      }
+      std::vector<int> newButtons = buttons;
+      newButtons.emplace_back(i);
+      std::vector<std::vector<int>> buttonsList = GetButtonsList(machine, newParity, i + 1, newButtons);
+      for (const auto& validButtons : buttonsList)
+      {
+        result.emplace_back(validButtons);
+      }
+    }
+    return result;
+  }
+
+  std::vector<std::vector<int>> GetButtonsList(const Machine& machine,
+                                               uint64_t parity,
+                                               std::map<uint64_t, std::vector<std::vector<int>>>& memoizationButtons)
+  {
+    auto it = memoizationButtons.find(parity);
+    if (it != memoizationButtons.end())
+      return it->second;
+
+    auto paths = GetButtonsList(machine, parity, 0, {});
+
+    memoizationButtons[parity] = paths;
+    return paths;
+  }
+
+  std::vector<int> GetNewJoltage(const Machine& machine,
+                                 const std::vector<int>& buttons,
+                                 const std::vector<int>& joltage)
+  {
+    std::vector<int> newJoltage = joltage;
+    for (auto b : buttons)
+    {
+      for (int index : machine.buttons[b])
+      {
+        newJoltage[index]--;
+      }
+    }
+    for (auto& j : newJoltage)
+    {
+      j /= 2;
+    }
+    return newJoltage;
+  }
+
+  uint64_t GetParity(const std::vector<int>& joltage)
+  {
+    uint64_t parity{0};
+    for (int i = 0; i < joltage.size(); i++)
+    {
+      parity |= (joltage[i] % 2 == 1) << i;
+    }
+    return parity;
+  }
+
+  int64_t Minimum(const Machine& machine,
+                  const std::vector<int>& targetJoltage,
+                  std::map<std::vector<int>, int64_t>& memoization,
+                  std::map<uint64_t, std::vector<std::vector<int>>>& memoizationButtons)
+  {
+    if (IsGoal(targetJoltage))
+      return 0;
+
+    auto it = memoization.find(targetJoltage);
+    if (it != memoization.end())
+      return it->second;
+
+    uint64_t parity = GetParity(targetJoltage);
+    auto buttonsList = GetButtonsList(machine, parity, memoizationButtons);
+
+    int64_t minimum = std::numeric_limits<int>::max();
+    for (const auto& buttons : buttonsList)
+    {
+      std::vector<int> newJoltage = GetNewJoltage(machine, buttons, targetJoltage);
+      if (!IsValid(newJoltage))
+        continue;
+      int64_t result = Minimum(machine, newJoltage, memoization, memoizationButtons);
+      minimum = std::min(minimum, 2 * result + (int64_t)buttons.size());
+    }
+    memoization[targetJoltage] = minimum;
+    return minimum;
+  }
+
   OUTPUT1(input)
   {
     int total = 0;
@@ -94,7 +214,13 @@ namespace y2025::day10
 
   OUTPUT2(input)
   {
-    // Solved in python/z3
-    return isExample ? 33 : 16613;
+    int64_t total = 0;
+    for (auto machine : input)
+    {
+      std::map<std::vector<int>, int64_t> memoization;
+      std::map<uint64_t, std::vector<std::vector<int>>> memoizationButtons;
+      total += Minimum(machine, machine.joltage, memoization, memoizationButtons);
+    }
+    return total;
   }
 }
